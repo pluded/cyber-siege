@@ -1,0 +1,279 @@
+{
+  "name": "Incident Response: Ransomware Attack",
+  "description": "Learn how to identify, analyze, and respond to a ransomware attack. Practice essential incident response skills including detection, containment, eradication, recovery, and documentation.",
+  "type": "training",
+  "category": "blue-team",
+  "difficulty": 2,
+  "availableTools": [
+    {
+      "name": "SIEM",
+      "description": "Security Information and Event Management system",
+      "usage": "Monitor and analyze security events across the network"
+    },
+    {
+      "name": "Wireshark",
+      "description": "Network protocol analyzer",
+      "usage": "Capture and analyze network traffic for malicious activity"
+    },
+    {
+      "name": "Volatility",
+      "description": "Memory forensics framework",
+      "usage": "Analyze memory dumps for malware artifacts"
+    },
+    {
+      "name": "YARA",
+      "description": "Pattern matching tool for malware analysis",
+      "usage": "Identify malware samples based on signatures"
+    }
+  ],
+  "objectives": [
+    {
+      "description": "Identify and confirm the ransomware incident",
+      "type": "primary",
+      "points": 100,
+      "completionCriteria": {
+        "actionType": "identify",
+        "target": "incident",
+        "parameters": {
+          "incidentType": "ransomware"
+        }
+      }
+    },
+    {
+      "description": "Isolate infected systems to contain the attack",
+      "type": "primary",
+      "points": 150,
+      "completionCriteria": {
+        "actionType": "isolate",
+        "target": "system",
+        "parameters": {
+          "systemStatus": "infected"
+        }
+      }
+    },
+    {
+      "description": "Analyze malware sample to understand the attack vector",
+      "type": "primary",
+      "points": 200,
+      "completionCriteria": {
+        "actionType": "analyze",
+        "target": "malware",
+        "parameters": {
+          "analysisType": "forensic"
+        }
+      }
+    },
+    {
+      "description": "Restore critical systems from backup",
+      "type": "primary",
+      "points": 250,
+      "completionCriteria": {
+        "actionType": "restore",
+        "target": "system",
+        "parameters": {
+          "restoreType": "from-backup"
+        }
+      }
+    },
+    {
+      "description": "Create a comprehensive incident report",
+      "type": "primary",
+      "points": 200,
+      "completionCriteria": {
+        "actionType": "create",
+        "target": "report",
+        "parameters": {
+          "reportType": "incident"
+        }
+      }
+    },
+    {
+      "description": "Implement security improvements to prevent future attacks",
+      "type": "secondary",
+      "points": 150,
+      "completionCriteria": {
+        "actionType": "implement",
+        "target": "security",
+        "parameters": {
+          "improvementType": "preventive"
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "name": "Corporate Network",
+      "type": "network",
+      "value": 5,
+      "vulnerabilities": [],
+      "properties": {
+        "subnets": [
+          "192.168.1.0/24",
+          "192.168.2.0/24"
+        ],
+        "devices": [
+          "firewall",
+          "router",
+          "switch",
+          "servers",
+          "workstations"
+        ]
+      }
+    },
+    {
+      "name": "File Server",
+      "type": "server",
+      "value": 5,
+      "vulnerabilities": [
+        "outdated-software",
+        "weak-authentication"
+      ],
+      "properties": {
+        "ip": "192.168.1.20",
+        "os": "Windows Server 2019",
+        "services": {
+          "445": "SMB",
+          "3389": "RDP",
+          "22": "SSH"
+        },
+        "status": "infected"
+      }
+    },
+    {
+      "name": "HR Workstation",
+      "type": "workstation",
+      "value": 3,
+      "vulnerabilities": [
+        "phishing-susceptible"
+      ],
+      "properties": {
+        "ip": "192.168.1.101",
+        "os": "Windows 10",
+        "user": "hr-admin",
+        "status": "infected"
+      }
+    },
+    {
+      "name": "Backup Server",
+      "type": "server",
+      "value": 4,
+      "vulnerabilities": [],
+      "properties": {
+        "ip": "192.168.2.10",
+        "os": "Linux Ubuntu 20.04",
+        "services": {
+          "22": "SSH"
+        },
+        "status": "operational",
+        "backupSchedule": "daily",
+        "lastBackup": "game-time-24:00:00"
+      }
+    },
+    {
+      "name": "Security Information and Event Management (SIEM)",
+      "type": "tool",
+      "value": 4,
+      "vulnerabilities": [],
+      "properties": {
+        "capabilities": [
+          "log collection",
+          "event correlation",
+          "alert generation",
+          "incident tracking"
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "name": "Forensic Analysis Toolkit",
+      "type": "tool",
+      "value": 3,
+      "vulnerabilities": [],
+      "properties": {
+        "capabilities": [
+          "disk imaging",
+          "memory analysis",
+          "malware analysis",
+          "file recovery"
+        ],
+        "status": "available"
+      }
+    }
+  ],
+  "initialState": {
+    "playerAccess": {
+      "ip": "192.168.1.5",
+      "permissions": "admin",
+      "tools": ["wireshark", "volatility", "autopsy", "tcpdump", "yara"]
+    },
+    "visibleAssets": ["Corporate Network", "File Server", "HR Workstation", "Backup Server", "Security Information and Event Management (SIEM)", "Forensic Analysis Toolkit"],
+    "events": [
+      {
+        "type": "attack",
+        "attackType": "ransomware",
+        "source": "phishing-email",
+        "target": "192.168.1.101",
+        "timestamp": "game-time-01:30:00",
+        "duration": 60,
+        "details": {
+          "malwareFamily": "CryptoLock",
+          "encryptedFiles": "*.doc, *.xls, *.pdf, *.jpg",
+          "ransom": "2 Bitcoin",
+          "spreadMethod": "network-share"
+        }
+      }
+    ],
+    "hints": [
+      "Check system logs for unusual activity patterns",
+      "Isolate infected systems immediately to prevent further spread",
+      "Collect and preserve evidence before making changes",
+      "Use forensic tools to analyze the malware's behavior",
+      "Restore from clean backups rather than paying the ransom",
+      "Document all actions taken during the incident response process"
+    ],
+    "tutorial": {
+      "steps": [
+        {
+          "title": "Introduction to Incident Response",
+          "content": "Incident response is the structured approach to handling security incidents, breaches, and cyber threats. The goal is to limit damage, reduce recovery time and costs, and learn from the incident."
+        },
+        {
+          "title": "Identification Phase",
+          "content": "The first step is to detect and confirm that a security incident has occurred. Look for indicators of compromise in logs, alerts, and system behavior.",
+          "example": "identify incident --type ransomware"
+        },
+        {
+          "title": "Containment Phase",
+          "content": "Once an incident is confirmed, quickly isolate affected systems to prevent the threat from spreading further across your network.",
+          "example": "isolate system --status infected"
+        },
+        {
+          "title": "Analysis Phase",
+          "content": "Investigate the incident to understand what happened, how it happened, and the extent of the damage. Collect and analyze evidence from affected systems.",
+          "example": "analyze malware --type forensic"
+        },
+        {
+          "title": "Recovery Phase",
+          "content": "After containing and understanding the incident, restore systems to normal operation using clean backups or rebuilding from scratch.",
+          "example": "restore system --type from-backup"
+        },
+        {
+          "title": "Documentation Phase",
+          "content": "Document all aspects of the incident including initial detection, response actions, findings, and lessons learned.",
+          "example": "create report --type incident"
+        },
+        {
+          "title": "Improvement Phase",
+          "content": "Implement security improvements based on lessons learned to prevent similar incidents in the future.",
+          "example": "implement security --type preventive"
+        }
+      ]
+    }
+  },
+  "timeLimit": 60,
+  "requiredSkills": ["Security Fundamentals", "Forensic Analysis", "System Administration"],
+  "rewards": {
+    "experience": 750,
+    "certification": "Incident Response Specialist"
+  }
+}

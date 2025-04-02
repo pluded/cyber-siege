@@ -1,0 +1,158 @@
+{
+  "name": "Network Reconnaissance",
+  "description": "Learn the fundamentals of network scanning and reconnaissance techniques to identify potential targets and vulnerabilities.",
+  "type": "training",
+  "category": "red-team",
+  "difficulty": 1,
+  "availableTools": [
+    {
+      "name": "Nmap",
+      "description": "Network mapper for host discovery and service enumeration",
+      "usage": "Perform network scans to identify active hosts and open ports"
+    },
+    {
+      "name": "Metasploit",
+      "description": "Penetration testing framework with exploit modules",
+      "usage": "Gather information about vulnerable services"
+    },
+    {
+      "name": "Wireshark",
+      "description": "Network protocol analyzer",
+      "usage": "Capture and analyze network traffic"
+    }
+  ],
+  "objectives": [
+    {
+      "description": "Perform a basic network scan to identify active hosts",
+      "type": "primary",
+      "points": 100,
+      "completionCriteria": {
+        "actionType": "scan",
+        "target": "network",
+        "parameters": {
+          "scanType": "basic"
+        }
+      }
+    },
+    {
+      "description": "Identify open ports on the target server",
+      "type": "primary",
+      "points": 150,
+      "completionCriteria": {
+        "actionType": "scan",
+        "target": "server",
+        "parameters": {
+          "scanType": "port"
+        }
+      }
+    },
+    {
+      "description": "Enumerate services running on the target server",
+      "type": "primary",
+      "points": 200,
+      "completionCriteria": {
+        "actionType": "scan",
+        "target": "server",
+        "parameters": {
+          "scanType": "service"
+        }
+      }
+    },
+    {
+      "description": "Perform a stealthy scan to avoid detection",
+      "type": "secondary",
+      "points": 250,
+      "completionCriteria": {
+        "actionType": "scan",
+        "target": "server",
+        "parameters": {
+          "scanType": "stealth"
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "name": "Training Network",
+      "type": "network",
+      "value": 1,
+      "vulnerabilities": [],
+      "properties": {
+        "hosts": [
+          "192.168.1.1",
+          "192.168.1.10",
+          "192.168.1.20",
+          "192.168.1.30"
+        ]
+      }
+    },
+    {
+      "name": "Target Server",
+      "type": "server",
+      "value": 2,
+      "vulnerabilities": [
+        "open-ports",
+        "unpatched-services"
+      ],
+      "properties": {
+        "ip": "192.168.1.10",
+        "os": "Linux",
+        "ports": [22, 80, 443, 3306],
+        "services": {
+          "22": "SSH",
+          "80": "HTTP",
+          "443": "HTTPS",
+          "3306": "MySQL"
+        }
+      }
+    }
+  ],
+  "initialState": {
+    "playerAccess": {
+      "ip": "192.168.1.5",
+      "permissions": "user",
+      "tools": ["nmap", "netcat", "wireshark"]
+    },
+    "visibleAssets": ["Training Network"],
+    "hints": [
+      "Start with a basic ping sweep to identify active hosts",
+      "Use nmap for port scanning with different options",
+      "Try using the -sV flag to enumerate services",
+      "For stealth scanning, look into TCP SYN scans"
+    ],
+    "tutorial": {
+      "steps": [
+        {
+          "title": "Introduction to Network Reconnaissance",
+          "content": "Network reconnaissance is the first phase of ethical hacking. It involves gathering information about the target network to identify potential entry points."
+        },
+        {
+          "title": "Basic Network Scanning",
+          "content": "Start by identifying active hosts on the network. Use the 'scan' command with the 'network' target and 'basic' scan type.",
+          "example": "scan network --type basic"
+        },
+        {
+          "title": "Port Scanning",
+          "content": "Once you've identified hosts, scan for open ports on the target server. Use the 'scan' command with the 'server' target and 'port' scan type.",
+          "example": "scan server --target 192.168.1.10 --type port"
+        },
+        {
+          "title": "Service Enumeration",
+          "content": "Identify the services running on open ports. Use the 'scan' command with the 'server' target and 'service' scan type.",
+          "example": "scan server --target 192.168.1.10 --type service"
+        },
+        {
+          "title": "Stealth Scanning",
+          "content": "To avoid detection, use stealth scanning techniques. Use the 'scan' command with the 'server' target and 'stealth' scan type.",
+          "example": "scan server --target 192.168.1.10 --type stealth"
+        }
+      ]
+    }
+  },
+  "timeLimit": 30,
+  "requiredSkills": ["Network Basics", "Command Line"],
+  "rewards": {
+    "experience": 500,
+    "certification": "Basic Network Reconnaissance"
+  }
+}

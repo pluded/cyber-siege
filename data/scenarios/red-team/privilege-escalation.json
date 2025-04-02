@@ -1,0 +1,191 @@
+{
+  "name": "Privilege Escalation",
+  "description": "Learn techniques to escalate your privileges on a compromised system to gain administrative access and maintain persistence.",
+  "type": "training",
+  "category": "red-team",
+  "difficulty": 3,
+  "objectives": [
+    {
+      "description": "Identify potential privilege escalation vectors on the compromised system",
+      "type": "primary",
+      "points": 150,
+      "completionCriteria": {
+        "actionType": "scan",
+        "target": "system",
+        "parameters": {
+          "scanType": "privilege-escalation"
+        }
+      }
+    },
+    {
+      "description": "Exploit a misconfigured SUID binary to gain root access",
+      "type": "primary",
+      "points": 250,
+      "completionCriteria": {
+        "actionType": "exploit",
+        "target": "system",
+        "parameters": {
+          "vulnerabilityType": "suid-binary",
+          "component": "/usr/bin/custom-tool"
+        }
+      }
+    },
+    {
+      "description": "Access the system's shadow file to extract password hashes",
+      "type": "primary",
+      "points": 200,
+      "completionCriteria": {
+        "actionType": "access",
+        "target": "file",
+        "parameters": {
+          "path": "/etc/shadow"
+        }
+      }
+    },
+    {
+      "description": "Create a backdoor user account with administrative privileges",
+      "type": "secondary",
+      "points": 300,
+      "completionCriteria": {
+        "actionType": "create",
+        "target": "user",
+        "parameters": {
+          "username": "backdoor",
+          "privileges": "admin"
+        }
+      }
+    },
+    {
+      "description": "Install a persistent backdoor that survives system reboots",
+      "type": "bonus",
+      "points": 350,
+      "completionCriteria": {
+        "actionType": "install",
+        "target": "backdoor",
+        "parameters": {
+          "type": "persistent"
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "name": "Compromised Server",
+      "type": "server",
+      "value": 4,
+      "vulnerabilities": [
+        "misconfigured-suid",
+        "kernel-exploit",
+        "weak-file-permissions",
+        "sudo-misconfiguration"
+      ],
+      "properties": {
+        "ip": "192.168.1.30",
+        "os": "CentOS 7.6",
+        "kernel": "3.10.0-957",
+        "ports": [22, 80, 3306],
+        "services": {
+          "22": "SSH",
+          "80": "HTTP (Apache 2.4.6)",
+          "3306": "MySQL 5.7.25"
+        },
+        "users": [
+          {
+            "username": "webuser",
+            "permissions": "standard",
+            "groups": ["webuser", "developers"]
+          },
+          {
+            "username": "root",
+            "permissions": "admin",
+            "groups": ["root", "wheel"]
+          }
+        ]
+      }
+    },
+    {
+      "name": "SUID Binary",
+      "type": "binary",
+      "value": 3,
+      "vulnerabilities": [
+        "suid-misconfiguration",
+        "path-injection"
+      ],
+      "properties": {
+        "path": "/usr/bin/custom-tool",
+        "owner": "root",
+        "permissions": "4755",
+        "function": "system maintenance"
+      }
+    },
+    {
+      "name": "Sudo Configuration",
+      "type": "config",
+      "value": 3,
+      "vulnerabilities": [
+        "overly-permissive"
+      ],
+      "properties": {
+        "path": "/etc/sudoers",
+        "entries": [
+          "webuser ALL=(ALL) NOPASSWD: /usr/bin/find"
+        ]
+      }
+    }
+  ],
+  "initialState": {
+    "playerAccess": {
+      "ip": "192.168.1.30",
+      "username": "webuser",
+      "permissions": "standard",
+      "tools": ["linpeas", "unix-privesc-check", "pspy", "find", "grep"]
+    },
+    "visibleAssets": ["Compromised Server"],
+    "hints": [
+      "Start by enumerating the system for potential privilege escalation vectors",
+      "Check for SUID binaries with 'find / -perm -u=s -type f 2>/dev/null'",
+      "Look at the sudo configuration with 'sudo -l'",
+      "Check for misconfigured cron jobs in /etc/crontab",
+      "For persistence, consider modifying startup scripts or creating cron jobs"
+    ],
+    "tutorial": {
+      "steps": [
+        {
+          "title": "Introduction to Privilege Escalation",
+          "content": "Privilege escalation involves elevating your access level on a compromised system to gain administrative control, allowing for complete system access and persistence."
+        },
+        {
+          "title": "Enumeration for Privilege Escalation",
+          "content": "Begin by scanning the system for potential privilege escalation vectors. This includes checking for SUID binaries, sudo misconfigurations, and vulnerable services.",
+          "example": "scan system --type privilege-escalation"
+        },
+        {
+          "title": "Exploiting SUID Binaries",
+          "content": "SUID (Set User ID) binaries run with the permissions of the file owner. Misconfigured SUID binaries can be exploited to gain elevated privileges.",
+          "example": "exploit system --vulnerability suid-binary --component /usr/bin/custom-tool"
+        },
+        {
+          "title": "Accessing Protected Files",
+          "content": "With elevated privileges, you can access sensitive files like /etc/shadow which contains password hashes.",
+          "example": "access file --path /etc/shadow"
+        },
+        {
+          "title": "Creating Backdoor Users",
+          "content": "To maintain access, create a new user with administrative privileges.",
+          "example": "create user --username backdoor --privileges admin"
+        },
+        {
+          "title": "Installing Persistent Backdoors",
+          "content": "Ensure continued access by installing a backdoor that survives system reboots.",
+          "example": "install backdoor --type persistent"
+        }
+      ]
+    }
+  },
+  "timeLimit": 60,
+  "requiredSkills": ["Vulnerability Exploitation", "Linux Basics", "Command Line"],
+  "rewards": {
+    "experience": 1000,
+    "certification": "Advanced System Compromise"
+  }
+}

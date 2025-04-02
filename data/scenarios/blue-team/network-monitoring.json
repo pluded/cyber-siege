@@ -1,0 +1,212 @@
+{
+  "name": "Network Monitoring and Defense",
+  "description": "Learn how to monitor network traffic, detect suspicious activities, and implement defensive measures to protect your network from attacks.",
+  "type": "training",
+  "category": "blue-team",
+  "difficulty": 1,
+  "objectives": [
+    {
+      "description": "Configure and deploy network monitoring tools",
+      "type": "primary",
+      "points": 100,
+      "completionCriteria": {
+        "actionType": "deploy",
+        "target": "tool",
+        "parameters": {
+          "toolType": "network-monitor"
+        }
+      }
+    },
+    {
+      "description": "Analyze network traffic to establish a baseline",
+      "type": "primary",
+      "points": 150,
+      "completionCriteria": {
+        "actionType": "analyze",
+        "target": "network",
+        "parameters": {
+          "analysisType": "baseline"
+        }
+      }
+    },
+    {
+      "description": "Detect and identify a port scanning attack",
+      "type": "primary",
+      "points": 200,
+      "completionCriteria": {
+        "actionType": "detect",
+        "target": "attack",
+        "parameters": {
+          "attackType": "port-scan"
+        }
+      }
+    },
+    {
+      "description": "Configure firewall rules to block suspicious traffic",
+      "type": "primary",
+      "points": 250,
+      "completionCriteria": {
+        "actionType": "configure",
+        "target": "firewall",
+        "parameters": {
+          "ruleType": "block",
+          "traffic": "suspicious"
+        }
+      }
+    },
+    {
+      "description": "Generate an incident report documenting the attack",
+      "type": "secondary",
+      "points": 150,
+      "completionCriteria": {
+        "actionType": "create",
+        "target": "report",
+        "parameters": {
+          "reportType": "incident"
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "name": "Corporate Network",
+      "type": "network",
+      "value": 5,
+      "vulnerabilities": [],
+      "properties": {
+        "subnets": [
+          "192.168.1.0/24",
+          "192.168.2.0/24"
+        ],
+        "devices": [
+          "firewall",
+          "router",
+          "switch",
+          "servers",
+          "workstations"
+        ]
+      }
+    },
+    {
+      "name": "Network Monitoring System",
+      "type": "tool",
+      "value": 3,
+      "vulnerabilities": [],
+      "properties": {
+        "capabilities": [
+          "traffic analysis",
+          "anomaly detection",
+          "alert generation",
+          "packet capture"
+        ],
+        "status": "inactive"
+      }
+    },
+    {
+      "name": "Perimeter Firewall",
+      "type": "firewall",
+      "value": 4,
+      "vulnerabilities": [],
+      "properties": {
+        "location": "edge",
+        "rules": [],
+        "status": "active",
+        "interfaces": [
+          {
+            "name": "external",
+            "ip": "203.0.113.1"
+          },
+          {
+            "name": "internal",
+            "ip": "192.168.1.1"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Web Server",
+      "type": "server",
+      "value": 4,
+      "vulnerabilities": [
+        "outdated-software"
+      ],
+      "properties": {
+        "ip": "192.168.1.10",
+        "os": "Ubuntu 20.04",
+        "services": {
+          "80": "HTTP (Apache 2.4.41)",
+          "443": "HTTPS",
+          "22": "SSH"
+        }
+      }
+    }
+  ],
+  "initialState": {
+    "playerAccess": {
+      "ip": "192.168.1.5",
+      "permissions": "admin",
+      "tools": ["wireshark", "snort", "tcpdump", "iptables"]
+    },
+    "visibleAssets": ["Corporate Network", "Network Monitoring System", "Perimeter Firewall", "Web Server"],
+    "events": [
+      {
+        "type": "attack",
+        "attackType": "port-scan",
+        "source": "203.0.113.100",
+        "target": "192.168.1.10",
+        "timestamp": "game-time+00:10:00",
+        "duration": 120,
+        "details": {
+          "scanType": "TCP SYN",
+          "ports": "1-1024"
+        }
+      }
+    ],
+    "hints": [
+      "Start by deploying and configuring your network monitoring tools",
+      "Analyze normal traffic patterns before looking for anomalies",
+      "Look for unusual connection attempts or scanning patterns",
+      "Configure firewall rules to block traffic from suspicious sources",
+      "Document all incidents thoroughly for future reference"
+    ],
+    "tutorial": {
+      "steps": [
+        {
+          "title": "Introduction to Network Monitoring",
+          "content": "Network monitoring is a critical blue team function that involves observing network traffic to detect and respond to suspicious activities and potential security threats."
+        },
+        {
+          "title": "Deploying Monitoring Tools",
+          "content": "Begin by deploying network monitoring tools to gain visibility into your network traffic.",
+          "example": "deploy tool --type network-monitor"
+        },
+        {
+          "title": "Establishing a Baseline",
+          "content": "Analyze normal network traffic to establish a baseline of typical behavior. This helps identify anomalies later.",
+          "example": "analyze network --type baseline"
+        },
+        {
+          "title": "Detecting Attacks",
+          "content": "Monitor for suspicious activities such as port scans, which are often precursors to more serious attacks.",
+          "example": "detect attack --type port-scan"
+        },
+        {
+          "title": "Configuring Firewall Rules",
+          "content": "Implement defensive measures by configuring firewall rules to block malicious traffic.",
+          "example": "configure firewall --rule-type block --traffic suspicious"
+        },
+        {
+          "title": "Incident Reporting",
+          "content": "Document security incidents to maintain a record of attacks and responses.",
+          "example": "create report --type incident"
+        }
+      ]
+    }
+  },
+  "timeLimit": 45,
+  "requiredSkills": ["Networking Basics", "Security Fundamentals"],
+  "rewards": {
+    "experience": 500,
+    "certification": "Basic Network Defense"
+  }
+}
